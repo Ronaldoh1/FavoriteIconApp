@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "Icon.h"
 #import "IconSet.h"
+#import "CustomCell.h"
 
 @interface ViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property NSArray *iconsSetsArray;
@@ -122,13 +123,35 @@
 
                 sourceIndexPath = indexPath;
 
-                
+
             }
 
 
         }
+            break;
 
-        default:
+
+
+        default:{
+
+
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:sourceIndexPath];
+            [UIView animateWithDuration:0.25 animations:^{
+
+                snapShot.center = cell.center;
+                snapShot.transform = CGAffineTransformMakeScale(1.0, 1.0);
+
+                cell.backgroundColor = [UIColor whiteColor];
+                cell.textLabel.alpha = 1;
+                cell.detailTextLabel.alpha = 1;
+                cell.imageView.alpha = 1;
+
+
+            } completion:^(BOOL finished) {
+                [snapShot removeFromSuperview];
+            }];
+            sourceIndexPath = nil;
+        }
             break;
     }
 }
@@ -363,7 +386,7 @@
 
     //Create the Cell
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    UITableViewCell *cell = nil;
 
     //configure the cell.
 
@@ -372,22 +395,47 @@
     //check if we are in editing mode and we have an extra row.
     if(indexPath.row >= set.icons.count && [self isEditing]){
 
+       cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+
         cell.textLabel.text = @"Add Icon";
         cell.detailTextLabel.text = nil;
         cell.imageView.image = nil;
 
     }else{
 
+    cell = [tableView dequeueReusableCellWithIdentifier:@"customCell"];
+
+        CustomCell *iconCell = (CustomCell *)cell;
+
 
     Icon *icon = set.icons[indexPath.row];
 
-    cell.textLabel.text = icon.title;
-    cell.detailTextLabel.text = icon.subtitle;
-    cell.imageView.image = icon.image;
+    iconCell.titleLabel.text = icon.title;
+    iconCell.subtitleLabel.text = icon.subtitle;
+    iconCell.iconImageView.image = icon.image;
+
+        if (icon.rating == RatingTypeAwesome) {
+            iconCell.favoriteImage.image = [UIImage imageNamed:@"star_uns.png"];
+        }
+
     }
+
     return cell;
 }
 
+
+-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    IconSet *set = self.iconsSetsArray[indexPath.section];
+
+    if (indexPath.row >= set.icons.count && [self isEditing]) {
+
+        return 40;
+    }else{
+        return 100;
+    }
+
+}
 
 
 @end

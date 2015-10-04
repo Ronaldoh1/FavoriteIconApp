@@ -38,6 +38,7 @@
 		F20E81201BBF6CDE00B20600 /* star_uns.png in Resources */ = {isa = PBXBuildFile; fileRef = F20E81041BBF6CDE00B20600 /* star_uns.png */; settings = {ASSET_TAGS = (); }; };
 		F20E81211BBF6CDE00B20600 /* Icon.m in Sources */ = {isa = PBXBuildFile; fileRef = F20E81071BBF6CDE00B20600 /* Icon.m */; settings = {ASSET_TAGS = (); }; };
 		F20E81221BBF6CDE00B20600 /* IconSet.m in Sources */ = {isa = PBXBuildFile; fileRef = F20E81091BBF6CDE00B20600 /* IconSet.m */; settings = {ASSET_TAGS = (); }; };
+		F2F08C501BC1C6E000D9B1FA /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F08C4F1BC1C6E000D9B1FA /* CustomCell.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +79,8 @@
 		F20E81071BBF6CDE00B20600 /* Icon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Icon.m; sourceTree = "<group>"; };
 		F20E81081BBF6CDE00B20600 /* IconSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconSet.h; sourceTree = "<group>"; };
 		F20E81091BBF6CDE00B20600 /* IconSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconSet.m; sourceTree = "<group>"; };
+		F2F08C4E1BC1C6E000D9B1FA /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
+		F2F08C4F1BC1C6E000D9B1FA /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +119,8 @@
 				F20E80DA1BBF6C9D00B20600 /* ViewController.h */,
 				F20E80DB1BBF6C9D00B20600 /* ViewController.m */,
 				F20E80DD1BBF6C9D00B20600 /* Main.storyboard */,
+				F2F08C4E1BC1C6E000D9B1FA /* CustomCell.h */,
+				F2F08C4F1BC1C6E000D9B1FA /* CustomCell.m */,
 				F20E80E01BBF6C9E00B20600 /* Assets.xcassets */,
 				F20E80E21BBF6C9E00B20600 /* LaunchScreen.storyboard */,
 				F20E80E51BBF6C9E00B20600 /* Info.plist */,
@@ -285,6 +290,7 @@
 			files = (
 				F20E80DC1BBF6C9D00B20600 /* ViewController.m in Sources */,
 				F20E80D91BBF6C9D00B20600 /* AppDelegate.m in Sources */,
+				F2F08C501BC1C6E000D9B1FA /* CustomCell.m in Sources */,
 				F20E81211BBF6CDE00B20600 /* Icon.m in Sources */,
 				F20E80D61BBF6C9D00B20600 /* main.m in Sources */,
 				F20E81221BBF6CDE00B20600 /* IconSet.m in Sources */,
@@ -434,6 +440,7 @@
 				F20E80EA1BBF6C9E00B20600 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
