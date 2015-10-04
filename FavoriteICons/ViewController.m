@@ -32,6 +32,117 @@
 
 
 
+    //Add gesture recognizer to table view to allow long press.
+
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressGestureRecognized:)];
+    [self.tableView addGestureRecognizer:longPress];
+
+
+
+
+}
+-(IBAction)longPressGestureRecognized:(UILongPressGestureRecognizer *)longPress{
+
+    CGPoint location = [longPress locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+
+    UIGestureRecognizerState state = longPress.state;
+    static UIView *snapShot = nil;
+    static NSIndexPath *sourceIndexPath = nil;
+
+    switch (state) {
+        case UIGestureRecognizerStateBegan:{
+            if (indexPath) {
+
+                sourceIndexPath = indexPath;
+                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+
+                snapShot = [self customSnapShotFromView:cell];
+
+                __block CGPoint center = cell.center;
+                snapShot.center = cell.center;
+                snapShot.alpha = 0;
+                [self.tableView addSubview:snapShot];
+
+                [UIView animateWithDuration:0.25 animations:^{
+
+                    center.y = location.y;
+                    snapShot.center = center;
+                    snapShot.transform = CGAffineTransformMakeScale(1.05, 1.05);
+                    snapShot.alpha = 0.98;
+
+
+                    cell.backgroundColor = [UIColor whiteColor];
+                    cell.textLabel.alpha = 0;
+                    cell.imageView.alpha = 0;
+
+                }];
+
+            }
+        }
+
+            break;
+
+
+        case UIGestureRecognizerStateChanged:{
+
+            CGPoint center = snapShot.center;
+            center.y = location.y;
+            snapShot.center = center;
+
+            //rearange the data model and rows.
+
+            IconSet *destSet = [self.iconsSetsArray objectAtIndex:indexPath.section];
+
+            if (indexPath && ![indexPath isEqual:sourceIndexPath] && indexPath.row < destSet.icons.count) {
+
+
+
+                //get the source and the destination
+                IconSet *sourceSet = self.iconsSetsArray[sourceIndexPath.section];
+                IconSet *destSet = self.iconsSetsArray[indexPath.section];
+
+                // get the icon to move
+                Icon *iconTomove = sourceSet.icons[sourceIndexPath.row];
+
+                if(sourceSet == destSet){
+                    [destSet.icons exchangeObjectAtIndex:indexPath.row withObjectAtIndex:sourceIndexPath.row];
+                }else{
+
+                    [destSet.icons insertObject:iconTomove atIndex:indexPath.row];
+                    [sourceSet.icons removeObjectAtIndex:sourceIndexPath.row];
+                    
+                }
+
+                //tell the tableView about the move.
+
+                [self.tableView moveRowAtIndexPath:sourceIndexPath toIndexPath:indexPath];
+
+                //update the indexPath
+
+                sourceIndexPath = indexPath;
+
+                
+            }
+
+
+        }
+
+        default:
+            break;
+    }
+}
+-(UIView *)customSnapShotFromView:(UIView *)inputView{
+
+    UIView *snapShot = [inputView snapshotViewAfterScreenUpdates:YES];
+    snapShot.layer.masksToBounds = NO;
+    snapShot.layer.cornerRadius = 0.0;
+    snapShot.layer.shadowOffset = CGSizeMake(-5.0, 0);
+    snapShot.layer.shadowRadius = 5.0;
+    snapShot.layer.shadowOpacity = 0.4;
+
+    return snapShot;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -168,11 +279,85 @@
         return NO;
 
     }else{
-        
+
         return YES;
     }
 }
 
+//
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    //remove highlight
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    IconSet *set = self.iconsSetsArray[indexPath.section];
+    if (indexPath.row >= set.icons.count && [self isEditing]) {
+        [self tableView:tableView commitEditingStyle:UITableViewCellEditingStyleInsert forRowAtIndexPath:indexPath];
+
+    }
+
+
+}
+
+
+//MOVING ROWS//
+
+-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    IconSet *set = self.iconsSetsArray[indexPath.section];
+
+    if([self isEditing] && indexPath.row >= set.icons.count){
+
+        return NO;
+    }else{
+        return YES;
+    }
+
+
+}
+
+//MOVE ROW FROM AND TO -- Based on indexPath
+-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
+
+
+    //get the source and the destination
+    IconSet *sourceSet =self.iconsSetsArray[sourceIndexPath.section];
+    IconSet *destSet = self.iconsSetsArray[destinationIndexPath.section];
+
+    // get the icon to move
+    Icon *iconTomove = sourceSet.icons[sourceIndexPath.row];
+
+    if(sourceSet == destSet){
+        [destSet.icons exchangeObjectAtIndex:destinationIndexPath.row withObjectAtIndex:sourceIndexPath.row];
+    }else{
+
+        [destSet.icons insertObject:iconTomove atIndex:destinationIndexPath.row];
+        [sourceSet.icons removeObjectAtIndex:sourceIndexPath.row];
+
+    }
+
+
+}
+
+
+//Are you ok with me moving the item to this destination idexpath or not? if so return the indexpath
+-(NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath{
+
+    IconSet *set = self.iconsSetsArray[proposedDestinationIndexPath.section];
+
+    if([self isEditing] && proposedDestinationIndexPath.row >= set.icons.count){
+
+
+        return [NSIndexPath indexPathForRow:set.icons.count-1 inSection:proposedDestinationIndexPath.section];
+
+    }else{
+        return proposedDestinationIndexPath;
+    }
+
+
+
+
+}
 //Create and configure each cell.
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
