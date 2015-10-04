@@ -10,6 +10,7 @@
 #import "Icon.h"
 #import "IconSet.h"
 #import "CustomCell.h"
+#import "DetailViewController.h"
 
 @interface ViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property NSArray *iconsSetsArray;
@@ -434,6 +435,22 @@
     }else{
         return 100;
     }
+
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+
+    DetailViewController *destVC = (DetailViewController *)segue.destinationViewController;
+
+    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+
+    IconSet *set = self.iconsSetsArray[indexPath.section];
+
+    Icon *icon = set.icons[indexPath.row];
+
+    destVC.iconToDisplay = icon;
+
+
 
 }
 
