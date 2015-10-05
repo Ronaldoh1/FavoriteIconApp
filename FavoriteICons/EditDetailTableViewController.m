@@ -7,7 +7,9 @@
 //
 
 #import "EditDetailTableViewController.h"
+#import "DetailViewController.h"
 #import "Icon.h"
+#import "RatingTableViewController.h"
 
 @interface EditDetailTableViewController ()<UITextFieldDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -52,7 +54,7 @@
 
 -(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    if (indexPath.row == 0 && indexPath.section == 0) {
+    if ((indexPath.row == 0 && indexPath.section == 0) || (indexPath.row == 2 && indexPath.section == 1)) {
         return indexPath;
     }else{
         return nil;
@@ -83,6 +85,24 @@
     self.imageView.image = image;
     [self dismissViewControllerAnimated:YES completion:nil];
     
+
+}
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+
+    if ([segue.identifier isEqualToString:@"gotBigImage"]) {
+        DetailViewController *destVC = (DetailViewController *)segue.destinationViewController;
+        destVC.iconToDisplay = self.iconToDisplay;
+
+
+    }
+
+    if ([segue.identifier isEqualToString:@"toRating"]) {
+        RatingTableViewController *destVC = (RatingTableViewController *)segue.destinationViewController;
+        destVC.iconToRate = self.iconToDisplay;
+
+        
+    }
+
 
 }
 

@@ -39,8 +39,8 @@
             return @"Awesome";
             break;
 
-
         default:
+            return @"unknown";
             break;
     }
 }

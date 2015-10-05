@@ -9,11 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 typedef NS_ENUM(NSInteger, RatingType) {
-  RatingTypeUnrated,
+  RatingTypeUnrated = 0,
   RatingTypeUgly,
   RatingTypeOK,
   RatingTypeNice,
-  RatingTypeAwesome
+  RatingTypeAwesome,
+    NumRatingType
 };
 
 @interface Icon : NSObject
