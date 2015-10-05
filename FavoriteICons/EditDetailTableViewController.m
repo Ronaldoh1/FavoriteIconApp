@@ -9,7 +9,7 @@
 #import "EditDetailTableViewController.h"
 #import "Icon.h"
 
-@interface EditDetailTableViewController ()<UITextFieldDelegate>
+@interface EditDetailTableViewController ()<UITextFieldDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextField *subTitleTextField;
@@ -36,16 +36,55 @@
     self.subTitleTextField.text = self.iconToDisplay.subtitle;
     self.ratingTextField.text = [Icon ratingToString:self.iconToDisplay.rating];
 
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    self.iconToDisplay.image = self.imageView.image;
+    self.iconToDisplay.title = self.titleTextField.text;
+    self.iconToDisplay.subtitle = self.subTitleTextField.text;
+   // self.iconToDisplay.rating = self.ratingTextField.text;
 
-    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    if (indexPath.row == 0 && indexPath.section == 0) {
+        return indexPath;
+    }else{
+        return nil;
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.allowsEditing = NO;
+    picker.delegate = self;
+
+    [self presentViewController:picker animated:YES completion:nil];
 
 
+
+
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
+
+    self.iconToDisplay.image = image;
+    self.imageView.image = image;
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+
+}
 
 
 @end

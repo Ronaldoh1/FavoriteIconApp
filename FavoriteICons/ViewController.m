@@ -44,6 +44,12 @@
 
 
 }
+-(void)viewWillAppear:(BOOL)animated{
+
+    [super viewWillAppear:YES];
+    [self.tableView reloadData];
+
+}
 -(IBAction)longPressGestureRecognized:(UILongPressGestureRecognizer *)longPress{
 
     CGPoint location = [longPress locationInView:self.tableView];
