@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class Icon;
 @interface EditDetailTableViewController : UITableViewController
-
+@property Icon *iconToDisplay;
 @end

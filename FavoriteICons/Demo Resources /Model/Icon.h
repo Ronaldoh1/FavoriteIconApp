@@ -24,5 +24,6 @@ typedef NS_ENUM(NSInteger, RatingType) {
 @property (assign) RatingType rating;
 
 - (instancetype)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle imageName:(NSString *)imageName;
++(NSString *)ratingToString:(RatingType)rating;
 
 @end

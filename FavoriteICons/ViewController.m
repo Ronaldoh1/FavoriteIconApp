@@ -11,6 +11,7 @@
 #import "IconSet.h"
 #import "CustomCell.h"
 #import "DetailViewController.h"
+#import "EditDetailTableViewController.h"
 
 @interface ViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property NSArray *iconsSetsArray;
@@ -440,6 +441,10 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
 
+
+    if ([segue.identifier isEqualToString:@"goToDetail"]) {
+
+
     DetailViewController *destVC = (DetailViewController *)segue.destinationViewController;
 
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
@@ -449,6 +454,26 @@
     Icon *icon = set.icons[indexPath.row];
 
     destVC.iconToDisplay = icon;
+
+    }
+
+
+    if ([segue.identifier isEqualToString:@"goToEdit"]) {
+
+
+        EditDetailTableViewController *destVC = (EditDetailTableViewController *)segue.destinationViewController;
+
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+
+        IconSet *set = self.iconsSetsArray[indexPath.section];
+
+        Icon *icon = set.icons[indexPath.row];
+        
+        destVC.iconToDisplay = icon;
+        
+    }
+
+
 
 
 

@@ -5,10 +5,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Table View Controller-->
+        <!--Edit Detail Table View Controller-->
         <scene sceneID="CYD-K2-z5r">
             <objects>
-                <tableViewController id="oBx-mD-PMM" sceneMemberID="viewController">
+                <tableViewController id="oBx-mD-PMM" customClass="EditDetailTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="ung-tA-xrb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -67,6 +67,9 @@
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="oBx-mD-PMM" id="deC-Zc-iQN"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <animations/>
@@ -103,6 +106,9 @@
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="oBx-mD-PMM" id="2YR-Ls-CUv"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <animations/>
@@ -164,6 +170,12 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="uux-ZP-U3k"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="imageView" destination="3is-Vk-Wjw" id="2pg-Ri-UDU"/>
+                        <outlet property="ratingTextField" destination="dwm-h5-PFr" id="dXT-GI-6WX"/>
+                        <outlet property="subTitleTextField" destination="Jlb-kA-xAN" id="iIP-BC-ZqA"/>
+                        <outlet property="titleTextField" destination="fnk-Pl-o5q" id="4ZF-Uc-RRx"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aYE-JO-jpT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

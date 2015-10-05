@@ -7,8 +7,13 @@
 //
 
 #import "EditDetailTableViewController.h"
+#import "Icon.h"
 
-@interface EditDetailTableViewController ()
+@interface EditDetailTableViewController ()<UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UITextField *titleTextField;
+@property (weak, nonatomic) IBOutlet UITextField *subTitleTextField;
+@property (weak, nonatomic) IBOutlet UITextField *ratingTextField;
 
 @end
 
@@ -23,7 +28,17 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
 
+    self.imageView.image = self.iconToDisplay.image;
+    self.titleTextField.text = self.iconToDisplay.title;
+    self.subTitleTextField.text = self.iconToDisplay.subtitle;
+    self.ratingTextField.text = [Icon ratingToString:self.iconToDisplay.rating];
+
+
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

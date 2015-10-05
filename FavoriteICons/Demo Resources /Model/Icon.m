@@ -20,4 +20,29 @@
   return self;
 }
 
++(NSString *)ratingToString:(RatingType)rating{
+
+    switch (rating) {
+        case RatingTypeUnrated:
+            return @"Unrated";
+            break;
+        case RatingTypeUgly:
+            return @"Ugly";
+            break;
+        case RatingTypeOK:
+            return @"Ok";
+            break;
+        case RatingTypeNice:
+            return @"Nice";
+            break;
+        case RatingTypeAwesome:
+            return @"Awesome";
+            break;
+
+
+        default:
+            break;
+    }
+}
+
 @end
